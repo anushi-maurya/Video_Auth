@@ -1,0 +1,110 @@
+
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="row">
+
+  <!-- LEFT SIDE — Show uploaded videos -->
+  <div class="col-md-8">
+    <h3 class="mb-3">Uploaded Videos</h3>
+
+    {% if videos %}
+      <div class="list-group">
+        {% for v in videos %}
+          <div class="list-group-item mb-3">
+
+            <!-- Video title (or file name if title missing) -->
+            <h5 class="mb-1">
+              {{ v.title|default:v.file.name }}
+            </h5>
+
+            <!-- Optional description -->
+            {% if v.description %}
+              <p class="mb-2">{{ v.description }}</p>
+            {% endif %}
+
+            <!-- Video information -->
+            <p class="mb-2 text-muted">
+              Uploaded by: {{ v.uploaded_by }}<br>
+              Uploaded at: {{ v.uploaded_at }}<br>
+              Size: {{ v.size }} bytes
+            </p>
+
+            <!-- Video preview player -->
+            <video width="320" controls>
+              <source src="{{ v.file.url }}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <!-- If no videos uploaded -->
+      <p>No videos uploaded yet.</p>
+    {% endif %}
+  </div>
+
+  <!-- RIGHT SIDE — Upload form or login prompt -->
+  <div class="col-md-4">
+
+    {% if user.is_authenticated %}
+      <!-- Show upload form only for logged-in users -->
+      <div class="card p-4">
+        <h4 class="mb-3 text-center">Upload Video</h4>
+
+        <form method="post" enctype="multipart/form-data" action="{% url 'videos:upload' %}">
+          {% csrf_token %}
+
+          <!-- Title input -->
+          <div class="mb-3">
+            <label class="form-label">Title</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+              <small class="text-danger">{{ form.title.errors.0 }}</small>
+            {% endif %}
+          </div>
+
+          <!-- Description input -->
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            {{ form.description }}
+            {% if form.description.errors %}
+              <small class="text-danger">{{ form.description.errors.0 }}</small>
+            {% endif %}
+          </div>
+
+          <!-- File upload input -->
+          <div class="mb-3">
+            <label class="form-label">Video File</label>
+            {{ form.file }}
+            {% if form.file.errors %}
+              <small class="text-danger">{{ form.file.errors.0 }}</small>
+            {% endif %}
+          </div>
+
+          <!-- Submit button -->
+          <button class="btn btn-primary w-100">Upload</button>
+        </form>
+      </div>
+
+    {% else %}
+      <!-- If user is not logged in -->
+      <div class="card p-4 bg-light">
+        <h4 class="mb-3 text-center">Upload Video</h4>
+        <p class="text-center mb-3">
+          You must be logged in to upload videos.
+        </p>
+
+        <!-- Login and Register buttons -->
+        <a href="{% url 'accounts:login' %}" class="btn btn-primary w-100 mb-2">Login</a>
+        <a href="{% url 'accounts:register' %}" class="btn btn-secondary w-100">Register</a>
+      </div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}
+
+
+

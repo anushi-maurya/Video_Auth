@@ -1,0 +1,18 @@
+Django
+*.pyc
+pycache/
+db.sqlite3
+*.log
+
+Virtual environment
+env/
+venv/
+ENV/
+
+IDE files
+.vscode/
+.idea/
+
+OS files
+.DS_Store
+Thumbs.db

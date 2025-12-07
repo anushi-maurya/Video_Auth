@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="card p-5 mx-auto" style="max-width: 500px; margin-top: 50px;">
+  <h2 class="mb-4 text-center">Create an Account</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="mb-4">
+      <label style="display: block; font-weight: 500; margin-bottom: 8px; min-height: 20px;">Username</label>
+      <input type="text" name="username" class="form-control" style="width: 100%; padding: 10px;" value="{{ form.username.value|default:'' }}">
+      {% if form.username.errors %}
+        <div style="height: 20px; margin-top: 5px;">
+          <small class="text-danger d-block">{{ form.username.errors.0 }}</small>
+        </div>
+      {% else %}
+        <div style="height: 20px;"></div>
+      {% endif %}
+    </div>
+
+    <div class="mb-4">
+      <label style="display: block; font-weight: 500; margin-bottom: 8px; min-height: 20px;">Email</label>
+      <input type="email" name="email" class="form-control" style="width: 100%; padding: 10px;" value="{{ form.email.value|default:'' }}">
+      {% if form.email.errors %}
+        <div style="height: 20px; margin-top: 5px;">
+          <small class="text-danger d-block">{{ form.email.errors.0 }}</small>
+        </div>
+      {% else %}
+        <div style="height: 20px;"></div>
+      {% endif %}
+    </div>
+
+    <div class="mb-4">
+      <label style="display: block; font-weight: 500; margin-bottom: 8px; min-height: 20px;">Password</label>
+      <input type="password" name="password" class="form-control" style="width: 100%; padding: 10px;" value="{{ form.password.value|default:'' }}">
+      {% if form.password.errors %}
+        <div style="height: 20px; margin-top: 5px;">
+          <small class="text-danger d-block">{{ form.password.errors.0 }}</small>
+        </div>
+      {% else %}
+        <div style="height: 20px;"></div>
+      {% endif %}
+    </div>
+
+    <div class="mb-4">
+      <label style="display: block; font-weight: 500; margin-bottom: 8px; min-height: 20px;">Confirm Password</label>
+      <input type="password" name="confirm_password" class="form-control" style="width: 100%; padding: 10px;" value="{{ form.confirm_password.value|default:'' }}">
+      {% if form.confirm_password.errors %}
+        <div style="height: 20px; margin-top: 5px;">
+          <small class="text-danger d-block">{{ form.confirm_password.errors.0 }}</small>
+        </div>
+      {% else %}
+        <div style="height: 20px;"></div>
+      {% endif %}
+    </div>
+
+    <button class="btn btn-primary btn-lg w-100" style="margin-top: 10px;">Register</button>
+  </form>
+</div>
+{% endblock %}
